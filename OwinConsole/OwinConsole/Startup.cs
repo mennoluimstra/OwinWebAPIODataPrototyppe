@@ -11,6 +11,9 @@ namespace OwinConsole
 		{
 			// Configure Web API for self-host. 
 			HttpConfiguration config = new HttpConfiguration();
+
+			config.DependencyResolver = new UnityResolver(UnityHelpers.GetConfiguredContainer());
+
 			config.Routes.MapHttpRoute(
 				name: "DefaultApi",
 				routeTemplate: "api/{controller}/{id}",

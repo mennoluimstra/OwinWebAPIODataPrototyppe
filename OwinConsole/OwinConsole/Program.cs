@@ -1,10 +1,6 @@
 ﻿using Microsoft.Owin.Hosting;
+using Microsoft.Practices.Unity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OwinConsole
 {
@@ -12,13 +8,19 @@ namespace OwinConsole
 	{
 		static void Main(string[] args)
 		{
+			IUnityContainer _container = UnityHelpers.GetConfiguredContainer();
 			string baseAddress = "http://localhost:9000/";
+			var startup = _container.Resolve<Startup>();
+			IDisposable webApplication = WebApp.Start(baseAddress, startup.Configuration);
 
-			// Start OWIN host 
-			using (WebApp.Start<Startup>(url: baseAddress))
+			try
 			{
 				Console.WriteLine($"Owin console started @ {baseAddress}");
-				Console.ReadLine();
+				Console.ReadKey();
+			}
+			finally
+			{
+				webApplication.Dispose();
 			}
 		}
 	}

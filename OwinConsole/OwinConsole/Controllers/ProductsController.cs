@@ -1,35 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using OwinConsole.Services;
+using System.Collections.Generic;
 using System.Web.Http;
+using System.Linq;
+using OwinConsole.Models;
 
 namespace OwinConsole.Controllers
 {
 	public class ProductsController : ApiController
 	{
-		// GET api/values 
-		public IEnumerable<string> Get()
+		private readonly IProductDataService _productDataService;
+
+		public ProductsController(IProductDataService productDataService)
 		{
-			return new string[] { "value1", "value2" };
+			_productDataService = productDataService;
+		}
+
+		// GET api/values 
+		public IEnumerable<Product> Get()
+		{
+			return _productDataService.GetAllProducts().AsEnumerable();
 		}
 
 		// GET api/values/5 
-		public string Get(int id)
+		public Product Get(int id)
 		{
-			return "value";
+			return _productDataService.GetProduct(id);
 		}
 
 		// POST api/values 
-		public void Post([FromBody]string value)
+		public void Post([FromBody]Product product)
 		{
+			_productDataService.Add(product);
 		}
 
 		// PUT api/values/5 
-		public void Put(int id, [FromBody]string value)
+		public void Put([FromBody]Product product)
 		{
+			_productDataService.Update(product);
 		}
 
 		// DELETE api/values/5 
 		public void Delete(int id)
 		{
+			_productDataService.Delete(id);
 		}
 	}
 }
