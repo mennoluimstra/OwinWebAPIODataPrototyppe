@@ -6,6 +6,7 @@ using OwinConsole.Models;
 
 namespace OwinConsole.Controllers
 {
+	[RoutePrefix("api/products")]
 	public class ProductsController : ApiController
 	{
 		private readonly IProductDataService _productDataService;

@@ -23,6 +23,7 @@ namespace OwinConsole
 		public static void RegisterTypes(IUnityContainer container)
 		{
 			container.RegisterType<IProductDataService, ProductDataService>(new ContainerControlledLifetimeManager());
+			container.RegisterType<IOrderDataService, OrderDataService>(new ContainerControlledLifetimeManager());
 		}
 
 	}
